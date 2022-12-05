@@ -19,7 +19,7 @@ const Provider = ({ children }) => {
 
     const [state, dispatch] = useReducer(Reducer, {
         products,
-        carts: [],
+        carts: products.filter(i => i.inStock > 0).slice(0, 3),
     });
 
     return (
