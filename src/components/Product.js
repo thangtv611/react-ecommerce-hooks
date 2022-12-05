@@ -22,32 +22,36 @@ const Product = ({ prod, handleAddToCart }) => {
                     ) : (
                         <div>4 days delivery</div>
                     )}
-                    <div>In stock: {prod.inStock}</div>
                     <Rating rating={prod.rating} />
-                    {carts.some((card) => card.id === prod.id) ? (
-                        <Button
-                            onClick={() =>
-                                dispatch({
-                                    type: REMOVE_FROM_CART,
-                                    payload: prod,
-                                })
-                            }
-                            variant="danger"
-                        >
-                            Remove from card
-                        </Button>
-                    ) : (
-                        <Button
-                            disabled={prod.inStock === 0}
-                            onClick={() =>
-                                dispatch({ type: ADD_PRODUCT, payload: prod })
-                            }
-                        >
-                            {prod.inStock === 0
-                                ? "Out of stock"
-                                : "Add to card"}
-                        </Button>
-                    )}
+                    <div style={{ marginTop: 10 }}>
+                        {carts.some((card) => card.id === prod.id) ? (
+                            <Button
+                                onClick={() =>
+                                    dispatch({
+                                        type: REMOVE_FROM_CART,
+                                        payload: prod,
+                                    })
+                                }
+                                variant="danger"
+                            >
+                                Remove from card
+                            </Button>
+                        ) : (
+                            <Button
+                                disabled={prod.inStock === 0}
+                                onClick={() =>
+                                    dispatch({
+                                        type: ADD_PRODUCT,
+                                        payload: prod,
+                                    })
+                                }
+                            >
+                                {prod.inStock === 0
+                                    ? "Out of stock"
+                                    : "Add to card"}
+                            </Button>
+                        )}
+                    </div>
                 </Card.Subtitle>
             </Card.Body>
         </Card>

@@ -5,16 +5,18 @@ import {
     Dropdown,
     Nav,
     Badge,
-    Card,
+    Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
-import {  AiFillDelete } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import { CartState } from "../store/Provider";
+import { REMOVE_FROM_CART } from "../store/Action";
 
 const Header = () => {
     const {
         state: { carts },
+        dispatch,
     } = CartState();
 
     return (
@@ -43,9 +45,9 @@ const Header = () => {
                         </Dropdown.Toggle>
                         <Dropdown.Menu style={{ minWidth: 320 }}>
                             {carts.length ? (
-                                carts.map(cart => (
+                                carts.map((cart) => (
                                     <span className="cartItem" key={cart.id}>
-                                        <img 
+                                        <img
                                             className="cartImg"
                                             src={cart.image}
                                             alt={cart.name}
@@ -54,9 +56,15 @@ const Header = () => {
                                             <span>{cart.name}</span>
                                             <span>${cart.price}</span>
                                         </div>
-                                        <AiFillDelete>
-
-                                        </AiFillDelete>
+                                        <AiFillDelete
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                dispatch({
+                                                    type: REMOVE_FROM_CART,
+                                                    payload: cart,
+                                                })
+                                            }
+                                        />
                                     </span>
                                 ))
                             ) : (
@@ -64,6 +72,11 @@ const Header = () => {
                                     Cart is Empty!
                                 </span>
                             )}
+                            <span className="cartItem">
+                                <Button style={{ margin: '0 auto', width: '95%'}}>
+                                    <Link to="/cart">Go to carts</Link>
+                                </Button>
+                            </span>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Nav>
