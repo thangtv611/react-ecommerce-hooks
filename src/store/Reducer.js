@@ -1,26 +1,26 @@
-import { ADD_PRODUCT, REMOVE_FROM_CART } from "./Action";
+import { ADD_PRODUCT, REMOVE_FROM_CART, SET_PRODUCT } from "./Action";
 
 const Reducer = (state, action) => {
+    console.log({ action });
     switch (action.type) {
-        case ADD_PRODUCT: {
-            const newState = {
+        case ADD_PRODUCT:
+            return {
                 ...state,
                 carts: [...state.carts, { ...action.payload, qty: 1 }],
             };
-            // console.log({ newState });
-            return newState;
-        }
-        case REMOVE_FROM_CART: {
+        case REMOVE_FROM_CART:
             return {
                 ...state,
                 carts: state.carts.filter(
                     (item) => item.id !== action.payload.id
                 ),
             };
-        }
-
+        case SET_PRODUCT:
+            return {
+                ...state,
+                products: action.products,
+            };
         default:
-            // console.log("default");
             return state;
     }
 };

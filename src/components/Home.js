@@ -6,7 +6,7 @@ import { addProduct } from "../store/Action";
 
 const Home = () => {
     const {
-        state: { products, carts },
+        state: { products = [], carts },
         dispatch,
     } = CartState();
 
@@ -21,6 +21,7 @@ const Home = () => {
                 {products.map((product) => {
                     return (
                         <Product
+                            key={product.id}
                             prod={product}
                             handleAddToCart={handleAddToCart}
                         />

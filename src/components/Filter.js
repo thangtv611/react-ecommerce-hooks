@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { setProducts } from "../store/Action";
+import { CartState } from "../store/Provider";
 import Rating from "./Rating";
 
 const Filter = () => {
-    const [rating, setRating] = useState(3);
+    const {
+        state: { products },
+        dispatch,
+    } = CartState();
+    const [rating, setRating] = useState(0);
+
+    useEffect(() => {
+        axios("http://localhost:3001/api/products?rating=" + rating).then(
+            (resp) => {
+                dispatch(setProducts(resp.data));
+            }
+        );
+    }, [rating]);
 
     const handleRating = (point) => {
-        console.log('point: ', point);
         setRating(point);
-    }
+    };
+
+    const handleClearFilter = () => {
+        setRating(0);
+    };
 
     return (
         <div className="filters">
@@ -50,10 +68,15 @@ const Filter = () => {
                 ></Form.Check>
             </span>
             <span>
-                <label style={{paddingRight: 10 }}>Rating:</label>
+                <label style={{ paddingRight: 10 }}>Rating:</label>
                 <Rating rating={rating} handleRating={handleRating} />
             </span>
-            <Button variant="light">Clear Filters</Button>
+            <Button onClick={handleClearFilter} variant="light">
+                Clear Filters
+            </Button>
+            <span style={{ marginTop: 20 }}>
+                Total products: {products.length}
+            </span>
         </div>
     );
 };
