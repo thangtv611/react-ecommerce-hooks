@@ -1,6 +1,6 @@
 # Simple ecommerce app using React Hooks
 
-## Sreen
+## Screen
 
 ![image info](./docs/images/Capture20221207.PNG)
 
@@ -17,3 +17,4 @@
 - [ ] Search product by name
 - [ ] Paging
 - [ ] Product image galary
+- [ ] Responsive view
