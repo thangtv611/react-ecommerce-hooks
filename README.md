@@ -1,4 +1,9 @@
 # Simple ecommerce app using React Hooks
+
+## Sreen
+
+![image info](./docs/images/Capture20221207.PNG)
+
 ## Todo list
 - [x] Filter by total in stock
 - [x] Filter by fast delivery
