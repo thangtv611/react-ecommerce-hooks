@@ -10,7 +10,7 @@ app.get("/api/products", (req, res) => {
         rating = "0",
         fastDelivery = "false",
         includeInStock = "false",
-        // orderBy = "asc",
+        orderBy = "asc",
     } = req.query;
 
     let products = PRODUCTS;
@@ -20,23 +20,23 @@ app.get("/api/products", (req, res) => {
         });
     }
 
-    // if (fastDelivery !== '' && ["true", "falase"].includes(fastDelivery)) {
-    //     products = products.filter(
-    //         (p) => p.fastDelivery === (fastDelivery === "true")
-    //     );
-    // }
+    if (fastDelivery !== '' && ["true", "falase"].includes(fastDelivery)) {
+        products = products.filter(
+            (p) => p.fastDelivery === (fastDelivery === "true")
+        );
+    }
 
-    // if (includeInStock !== '' && ["true", "false"].includes(includeInStock)) {
-    //     products = products.filter((p) =>
-    //         includeInStock === "true" ? p.inStock > 0 : p.inStock === 0
-    //     );
-    // }
+    if (includeInStock !== '' && ["true", "false"].includes(includeInStock)) {
+        if (includeInStock === 'true') {
+            products = products.filter(p => p.inStock > 0);
+        }
+    }
 
-    // if (orderBy && ["asc", "desc"].includes(orderBy)) {
-    //     products.sort((a, b) => {
-    //         return orderBy === "asc" ? a.price - b.price : b.price - a.price;
-    //     });
-    // }
+    if (orderBy && ["asc", "desc"].includes(orderBy)) {
+        products.sort((a, b) => {
+            return orderBy === "asc" ? a.price - b.price : b.price - a.price;
+        });
+    }
 
     return res.status(200).json(products);
 });

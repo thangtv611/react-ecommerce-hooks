@@ -11,14 +11,20 @@ const Filter = () => {
         dispatch,
     } = CartState();
     const [rating, setRating] = useState(0);
+    const [fastDelivery, setFastDelivery] = useState(false);
+    const [includeOutOfStock, setIncludeOutOfStock] = useState(false);
+    const [orderBy, setOrderBy] = useState("desc");
 
     useEffect(() => {
-        axios("http://localhost:3001/api/products?rating=" + rating).then(
-            (resp) => {
-                dispatch(setProducts(resp.data));
-            }
-        );
-    }, [rating]);
+        let url = "http://localhost:3001/api/products?rating=" + rating;
+        url += `&fastDelivery=${fastDelivery ? "true" : "false"}`;
+        url += `&includeInStock=${includeOutOfStock ? "true" : "false"}`;
+        url += `&orderBy=${orderBy}`;
+
+        axios(url).then((resp) => {
+            dispatch(setProducts(resp.data));
+        });
+    }, [rating, fastDelivery, includeOutOfStock, orderBy]);
 
     const handleRating = (point) => {
         setRating(point);
@@ -38,15 +44,18 @@ const Filter = () => {
                     name="group1"
                     label="Ascending"
                     id={`inline-1`}
+                    onChange={() => setOrderBy("asc")}
                 ></Form.Check>
             </span>
             <span>
                 {" "}
                 <Form.Check
                     inline
+                    name="group1"
                     type="radio"
                     label="Descending"
                     id={`inline-2`}
+                    onChange={() => setOrderBy("desc")}
                 ></Form.Check>
             </span>
             <span>
@@ -56,6 +65,7 @@ const Filter = () => {
                     name="group2"
                     label="Include Out of stock"
                     id={`inline-3`}
+                    onChange={(e) => setIncludeOutOfStock(e.target.checked)}
                 ></Form.Check>
             </span>
             <span>
@@ -65,6 +75,7 @@ const Filter = () => {
                     name="group2"
                     label="Fast delivery Only"
                     id={`inline-4`}
+                    onChange={(e) => setFastDelivery(e.target.checked)}
                 ></Form.Check>
             </span>
             <span>

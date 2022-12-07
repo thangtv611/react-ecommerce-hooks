@@ -179,7 +179,10 @@ const PRODUCTS = [
         fastDelivery: false,
         rating: 3,
     },
-];
+].map(item => ({
+    ...item,
+    price: parseFloat(item.price),
+}))
 
 module.exports = {
     PRODUCTS,
